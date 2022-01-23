@@ -1,0 +1,27 @@
+{
+  "name": "mfee23-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",     // 自己新增的指令，就可以在終端下
+    "dev": "NODE_ENV=development nodemon index.js",   // 自己新增的指令，就可以在終端下
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2"
+  }
+}
+
+
+可以在終端下指令：npm start， 就會執行 "start": "NODE_ENV=production node index.js"  productiong是指正式環境已開發完畢
+
+可以在終端下指令：npm run dev， 就會執行 "dev": "NODE_ENV=development nodemon index.js"  development是指測式環境，開發中
+
+除了npm start 與 npm test  不用加 run ， 其他都要加 run。
+
+為了方便或處理事情可以自己去增加一些 package.json "scripts" 的指令
