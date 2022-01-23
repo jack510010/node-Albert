@@ -9,7 +9,7 @@ const data = {
 };
 
 fs.writeFile(  
-    __dirname + '/data.json',  // 加了__dirname 就是說我要把檔案寫入到所在資料夾。
+    'data.json',  
     JSON.stringify(data, null, 3),  
     error => {  
         if (error) {
