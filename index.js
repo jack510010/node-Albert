@@ -13,6 +13,7 @@ app.get('/', (req, res)=>{   //! 第三個動作 定義路由，有兩個重要�
 
 let port = process.env.PORT || 3000;   // 『 port = process.env.PORT 』是從'dotenv'過來的
 app.listen(port, ()=>{   // 第四個動作 下一個listen來偵聽
+    console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
     console.log(`啟動: ${port}`, new Date());
 });  
 
