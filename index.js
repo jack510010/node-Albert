@@ -15,3 +15,13 @@ let port = process.env.PORT || 3000;   // 『 port = process.env.PORT 』是從'
 app.listen(port, ()=>{   // 第四個動作 下一個listen來偵聽
     console.log(`啟動: ${port}`, new Date());
 });  
+
+/*
+可以send 這些東西
+res.send({ some: 'json' })   物件
+res.send('<p>some html</p>')  一般文字
+res.status(404).send('Sorry, we cannot find that!')  狀態
+res.status(500).send({ error: 'something blew up' })  狀態
+
+設定head可以用set 例如： res.set('Content-Type', 'text/html')
+*/
