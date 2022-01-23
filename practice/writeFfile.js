@@ -8,10 +8,10 @@ const data = {
     age: 25
 };
 
-fs.writeFile(  // 會有3個值要輸入
-    'data.json',  // 1st 檔名.副檔名
-    JSON.stringify(data, null, 3),  // 2nd 要寫入的東西
-    error => {  // 3rd  一個func 『可以是callback、error、normal』
+fs.writeFile(  
+    __dirname + '/data.json',  // 加了__dirname 就是說我要把檔案寫入到所在資料夾。
+    JSON.stringify(data, null, 3),  
+    error => {  
         if (error) {
             console.log('無法寫入檔案：', error);
             process.exit(); // 結束程式
