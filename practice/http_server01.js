@@ -7,7 +7,13 @@ const server = http.createServer((req, res)=>{
     })
     res.end(`<h1>Hola, ciao, ${req.url}</h1>`);  // .end()是去輸出內容到頁面上
 });
-// res就是response，server端要回應給用戶端，所以我要回應的時候是用『res』這個物件的『end()』方法
+
+//! 所有的request都會進到 http.createServer() 這個func裡面
+//* request資料會放在『req』裡面
+//* 『res』就是response，server端要回應給用戶端
+//* 用 res.writeHead() 去設定檔頭
+//* 用 end() 去輸出內容到頁面上。   所以我要回應的時候是用『res』這個物件的『end()』方法
+
 
 server.listen(3000); // node 一般習慣用3000或5000
 
