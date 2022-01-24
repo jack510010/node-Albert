@@ -19,7 +19,7 @@ app.get('/', (req, res)=>{
 app.use('/', (req, res)=>{
     res.status(404).send(`<h1>找不到頁面</h1>`);
 })
-
+let port = process.env.PORT || 3000; 
 app.listen(port, ()=>{
     console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
     console.log(`啟動: ${port}`, new Date());
