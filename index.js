@@ -12,6 +12,7 @@ app.get('/', (req, res)=>{
 
 // 其他的路由就定義在 app.get() 和 app.use() 的中間。 這裡擺放是有順序的 app.use(res.status(404)) 一定要擺在最後面，不然他會擋到其他路由。
 // 設定在前面的就是優先使用。 原則上我要優先的路由就放前面。
+// https://zh.wikipedia.org/wiki/HTTP状态码  http status code 狀態碼 可以維基百科一下
 
 
 // 路由定義結束: End
