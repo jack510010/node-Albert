@@ -5,10 +5,12 @@ const express = require('express');
 const app = express();  
 
 
+app.use(express.static('public'));  // 使用靜態內容的資料夾要放在路由之前。  // 這個是根目錄，所以其他靜態的檔案，例如css、前端的js或者圖檔都可以放在public這個資料夾裡面。 
+
 // 路由定義開始: Begin
 app.get('/', (req, res)=>{   
     res.send(`<h2>Hello</h2>`);  
-})
+});
 
 // 其他的路由就定義在 app.get() 和 app.use() 的中間。 這裡擺放是有順序的 app.use(res.status(404)) 一定要擺在最後面，不然他會擋到其他路由。
 // 設定在前面的就是優先使用。 原則上我要優先的路由就放前面。
