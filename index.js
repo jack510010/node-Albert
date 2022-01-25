@@ -4,14 +4,17 @@ const express = require('express');
 
 const app = express();  
 
+app.set('view engine', 'ejs'); // 樣版引擎
 
 app.use(express.static('public'));  // 使用靜態內容的資料夾要放在路由之前。  // 這個是根目錄，所以其他靜態的檔案，例如css、前端的js或者圖檔都可以放在public這個資料夾裡面。 
 app.use('/jquery', express.static('node_modules/jquery/dist/'));     // 放進jquery，複製相對路徑
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));  // 放進bootstrap，複製相對路徑
 
 // 路由定義開始: Begin
-app.get('/', (req, res)=>{   
-    res.send(`<h2>Hello</h2>`);  
+app.get('/', (req, res)=>{ 
+    res.render('home', {name: 'albert'})  // 寫入home.ejs裡面的值，改ejs的話nodemon不會重新啟動，也不需要重新啟動就可以去render新的樣板
+
+    //res.send(`<h2>Hello</h2>`);  
 });
 
 // 其他的路由就定義在 app.get() 和 app.use() 的中間。 這裡擺放是有順序的 app.use(res.status(404)) 一定要擺在最後面，不然他會擋到其他路由。
