@@ -6,6 +6,8 @@ const app = express();
 
 
 app.use(express.static('public'));  // 使用靜態內容的資料夾要放在路由之前。  // 這個是根目錄，所以其他靜態的檔案，例如css、前端的js或者圖檔都可以放在public這個資料夾裡面。 
+app.use('/jquery', express.static('node_modules/jquery/dist/'));     // 放進jquery，複製相對路徑
+app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));  // 放進bootstrap，複製相對路徑
 
 // 路由定義開始: Begin
 app.get('/', (req, res)=>{   
