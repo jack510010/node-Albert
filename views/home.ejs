@@ -1,2 +1,13 @@
 <!-- 原則上ejs的檔案就是放html -->
-<h2>Hi, <%= name %></h2> 
+<%- include('parts/html-head') %> 
+<%- include('parts/navbar') %> 
+<div class="container">
+    <h2>Hi, <%= name %></h2> 
+    <i class="fab fa-youtube"></i>
+</div>
+
+
+
+
+<%- include('parts/scripts') %> 
+<%- include('parts/html-foot') %>
