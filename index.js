@@ -17,6 +17,11 @@ app.get('/', (req, res)=>{
     //res.send(`<h2>Hello</h2>`);  
 });
 
+app.get('/try-qs', (req, res)=>{ 
+   
+    res.json(req.query);  //queryString 進到express這邊時，會被放在req的query裡面。req.query類似PHP裡面的『$_GET』啦。
+});
+
 app.get('/json-sales', (req, res)=>{ 
    const sales = require('./data/sales'); // 副檔名可以不寫。他會自動把json的內容轉換成原生的陣列或物件
 
