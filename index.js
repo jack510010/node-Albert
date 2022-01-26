@@ -20,9 +20,9 @@ app.get('/', (req, res)=>{
 app.get('/json-sales', (req, res)=>{ 
    const sales = require('./data/sales'); // 副檔名可以不寫。他會自動把json的內容轉換成原生的陣列或物件
 
-    console.log(sales);
-
-    res.json(sales);
+    //console.log(sales);
+    //res.json(sales);
+    res.render('json-sales', {sales});
 });
 
 // 其他的路由就定義在 app.get() 和 app.use() 的中間。 這裡擺放是有順序的 app.use(res.status(404)) 一定要擺在最後面，不然他會擋到其他路由。
