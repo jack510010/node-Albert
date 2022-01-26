@@ -30,8 +30,9 @@ app.get('/try-qs', (req, res)=>{
     res.json(req.query);  //queryString 進到express這邊時，會被放在req的query裡面。req.query類似PHP裡面的『$_GET』啦。
 });
 
-const urlEncodedParser = express.urlencoded({extended: false}) // 可以拿到中介軟體 middleware
-app.post('/try-post',urlEncodedParser, (req, res)=>{     // app.post() 括號裡面有3個東西: 1st 路徑  2nd 中介軟體: 處理進來的資料  3rd callback func
+const urlEncodedParser = express.urlencoded({extended: false}) //url格式 可以拿到中介軟體 middleware
+const jsonParser = express.json();  //json格式 這個也是中介軟體 middleware
+app.post('/try-post',[urlEncodedParser, jsonParser], (req, res)=>{     // app.post() 括號裡面有3個東西: 1st 路徑  2nd 中介軟體: 處理進來的資料  3rd callback func
 
     res.json(req.body); 
 });
