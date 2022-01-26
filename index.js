@@ -6,9 +6,17 @@ const app = express();
 
 app.set('view engine', 'ejs'); // 樣版引擎
 
+
+
+
+//app.use()   use的意思是所有的方法
+app.use(express.urlencoded({extended: false})); //url格式 可以拿到中介軟體 middleware
+app.use(express.json()); //json格式 這個也是中介軟體 middleware
 app.use(express.static('public'));  // 使用靜態內容的資料夾要放在路由之前。  // 這個是根目錄，所以其他靜態的檔案，例如css、前端的js或者圖檔都可以放在public這個資料夾裡面。 
 app.use('/jquery', express.static('node_modules/jquery/dist/'));     // 放進jquery，複製相對路徑
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));  // 放進bootstrap，複製相對路徑
+
+
 
 // 路由定義開始: Begin
 app.get('/', (req, res)=>{ 
@@ -30,9 +38,8 @@ app.get('/try-qs', (req, res)=>{
     res.json(req.query);  //queryString 進到express這邊時，會被放在req的query裡面。req.query類似PHP裡面的『$_GET』啦。
 });
 
-const urlEncodedParser = express.urlencoded({extended: false}) //url格式 可以拿到中介軟體 middleware
-const jsonParser = express.json();  //json格式 這個也是中介軟體 middleware
-app.post('/try-post',[urlEncodedParser, jsonParser], (req, res)=>{     // app.post() 括號裡面有3個東西: 1st 路徑  2nd 中介軟體: 處理進來的資料  3rd callback func
+
+app.post('/try-post', (req, res)=>{     
 
     res.json(req.body); 
 });
