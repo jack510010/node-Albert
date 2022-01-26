@@ -17,17 +17,23 @@ app.get('/', (req, res)=>{
     //res.send(`<h2>Hello</h2>`);  
 });
 
-app.get('/try-qs', (req, res)=>{ 
-   
-    res.json(req.query);  //queryString 進到express這邊時，會被放在req的query裡面。req.query類似PHP裡面的『$_GET』啦。
-});
-
 app.get('/json-sales', (req, res)=>{ 
    const sales = require('./data/sales'); // 副檔名可以不寫。他會自動把json的內容轉換成原生的陣列或物件
 
     //console.log(sales);
     //res.json(sales);
     res.render('json-sales', {sales});
+});
+
+app.get('/try-qs', (req, res)=>{ 
+
+    res.json(req.query);  //queryString 進到express這邊時，會被放在req的query裡面。req.query類似PHP裡面的『$_GET』啦。
+});
+
+const urlEncodedParser = express.urlencoded({extended: false}) // 可以拿到中介軟體 middleware
+app.post('/try-post',urlEncodedParser, (req, res)=>{     // app.post() 括號裡面有3個東西: 1st 路徑  2nd 中介軟體: 處理進來的資料  3rd callback func
+
+    res.json(req.body); 
 });
 
 // 其他的路由就定義在 app.get() 和 app.use() 的中間。 這裡擺放是有順序的 app.use(res.status(404)) 一定要擺在最後面，不然他會擋到其他路由。
