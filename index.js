@@ -43,17 +43,18 @@ app.post('/try-post', (req, res)=>{
 
     res.json(req.body); 
 });
-
+//----------------------------------------以下是try-post-form------------------
+//表單頁面要兩個路由，一個get、一個post，基本上沒錯
 app.get('/try-post-form', (req, res)=>{     
 
-    res.render('try-post-form'); 
+    res.render('try-post-form', {email: '', password: ''}); 
 });
 
 app.post('/try-post-form', (req, res)=>{     
 
-    res.json(req.body); 
+    res.render('try-post-form', req.body); 
 });
-
+//----------------------------------------以上是try-post-form------------------
 
 
 // 路由定義結束: End
