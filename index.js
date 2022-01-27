@@ -1,8 +1,11 @@
 require('dotenv').config(); // 載入 .env 的設定    本身require進來就是一個object，『require('dotenv').config()』直接這樣寫就可以了。這一行要放在最前面。
 
 const express = require('express');   
-
+const multer = require('multer');
+const upload = multer({dest: 'tmp_uploads/'});
 const app = express();  
+const fs = require('fs').promises;
+
 
 app.set('view engine', 'ejs'); // 樣版引擎
 
@@ -56,6 +59,47 @@ app.post('/try-post-form', (req, res)=>{
 });
 //----------------------------------------以上是try-post-form------------------
 
+app.post('/try-upload',upload.single('avatar'), async (req, res) => {
+    if(req.file && req.file.mimetype === 'image/jpeg'){
+        try{
+            await fs.rename(req.file.path, __dirname + '/public/img/' + req.file.originalname);
+            return res.json({success: true, filename: req.file.originalname});
+        }catch(ex) {
+           return res.json({success: false, error: '無法存檔'});
+        }
+        
+    }else{
+        res.json({success: false, error: '格式不對'});
+    }
+    res.json(req.file);
+});
+
+//--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
+app.get('/headshots', (req,res) => {
+    res.render('headshots');
+});
+
+app.post('/headshots', upload.single('avatar'), (req, res) => {
+    console.log(req.file);
+
+    if(req.file && req.file.originalname){
+
+        if(/\.(jpg|jpeg|png|gif)$/i.test(req.file.originalname)){
+
+            fs.rename(req.file.path, '/public/img/' + req.file.originalname);
+
+        }else{
+            
+            fs.unlink(req.file.path);
+        }
+    }
+    res.render('headshots', {
+        result: true,
+        name: req.body.name,
+        avatar: '/img/' + req.file.originalname
+    });
+});
+//--------------------------------以上是headshots---------------------------------------------
 
 // 路由定義結束: End
 app.use('/', (req, res)=>{
