@@ -47,7 +47,7 @@ app.post('/try-post', (req, res)=>{
 //表單頁面要兩個路由，一個get、一個post，基本上沒錯
 app.get('/try-post-form', (req, res)=>{     
 
-    res.render('try-post-form', {email: '', password: ''}); 
+    res.render('try-post-form'); 
 });
 
 app.post('/try-post-form', (req, res)=>{     
