@@ -60,7 +60,7 @@ app.post('/try-post-form', (req, res)=>{
 //----------------------------------------以上是try-post-form------------------
 
 app.post('/try-upload',upload.single('avatar'), async (req, res) => {
-    if(req.file && req.file.mimetype === 'image/jpeg'){
+    if(req.file && req.file.mimetype === 'image/jpeg' || 'image/png'){
         try{
             await fs.rename(req.file.path, __dirname + '/public/img/' + req.file.originalname);
             return res.json({success: true, filename: req.file.originalname});
@@ -69,6 +69,7 @@ app.post('/try-upload',upload.single('avatar'), async (req, res) => {
         }
         
     }else{
+        await fs.unlink(req.file.path); // 刪除暫存檔
         res.json({success: false, error: '格式不對'});
     }
     res.json(req.file);
@@ -89,7 +90,7 @@ app.post('/headshots', upload.single('avatar'), (req, res) => {
             fs.rename(req.file.path, '/public/img/' + req.file.originalname);
 
         }else{
-            
+
             fs.unlink(req.file.path);
         }
     }
