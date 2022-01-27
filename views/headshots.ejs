@@ -1,0 +1,31 @@
+<!-- 原則上ejs的檔案就是放html -->
+<%- include('parts/html-head') %> 
+<%- include('parts/navbar') %>
+<div class="container">
+  <div class="row">
+    <% if(locals.result){ %>
+    <div class="card" style="width: 18rem">
+      <img src="<%= avatar %> " class="card-img-top" alt="" />
+      <div class="card-body">
+        <h5 class="card-title"><%= name %> </h5>
+      </div>
+    </div>
+    <% } %> 
+    <div class="col-lg-6">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="">名字</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="form-group">
+                <label for="">大頭貼</label>
+                <input type="file" class="form-control" name="avatar">
+            </div>
+            <button class="btn btn-primary">送出</button>
+        </form>
+    </div>
+  </div>
+</div>
+
+<%- include('parts/scripts') %> 
+<%- include('parts/html-foot') %>
