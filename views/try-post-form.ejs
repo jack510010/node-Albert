@@ -15,7 +15,7 @@
                 <div class="mb-3">
                   <label for="password" class="form-label">Password</label>
                   <input type="password" class="form-control" id="password" name="password">
-                  <% if(locals.password){ %>
+                  <% if(locals.password){ %>  <!--locals是樣版裡就有的，預設的物件。 只要變數是從路由處理器那邊傳過來的，他一定會掛在locals底下--->
                   <div  class="form-text"><%= password %></div>
                   <% } %> 
                 </div>
