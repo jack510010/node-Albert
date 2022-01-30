@@ -2,9 +2,12 @@ require('dotenv').config(); // 載入 .env 的設定    本身require進來就�
 
 const express = require('express');   
 const multer = require('multer');
-const upload = multer({dest: 'tmp_uploads/'});
-const app = express();  
 const fs = require('fs').promises;
+const upload = multer({dest: 'tmp_uploads/'});
+const uploadImg = require('./modules/upload-images');
+
+
+const app = express();  
 
 
 app.set('view engine', 'ejs'); // 樣版引擎
@@ -69,10 +72,21 @@ app.post('/try-upload',upload.single('avatar'), async (req, res) => {
         }
         
     }else{
-        await fs.unlink(req.file.path); // 刪除暫存檔
+        fs.unlink(req.file.path); // 刪除暫存檔
         res.json({success: false, error: '格式不對'});
     }
     res.json(req.file);
+});
+
+
+app.post('/try-upload2', uploadImg.single('avatar'), async (req, res) => {
+
+    res.json(req.file);
+});
+
+app.post('/try-upload3', uploadImg.array('photos', 10), async (req, res) => {
+
+    res.json(req.files);
 });
 
 //--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
@@ -80,14 +94,14 @@ app.get('/headshots', (req,res) => {
     res.render('headshots');
 });
 
-app.post('/headshots', upload.single('avatar'), (req, res) => {
+app.post('/headshots', upload.single('avatar'), async(req, res) => {
     console.log(req.file);
 
     if(req.file && req.file.originalname){
 
         if(/\.(jpg|jpeg|png|gif)$/i.test(req.file.originalname)){
 
-            fs.rename(req.file.path, '/public/img/' + req.file.originalname);
+            await fs.rename(req.file.path, __dirname + '/public/img/' + req.file.originalname);
 
         }else{
 
