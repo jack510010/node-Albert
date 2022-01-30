@@ -14,7 +14,7 @@
             <button type="button" class="btn btn-success" onclick="avatar.click()">上傳大頭貼</button>
           <div class="mb-3">
             <label for="my_img" class="form-label">image</label>
-            <input type="text" class="form-control" id="my_img" name="my_img" />
+            <input type="text" class="form-control" id="my_img" name="my_img" hidden/>
         
           </div>
           <button type="submit" class="btn btn-primary">submit</button>
@@ -22,7 +22,7 @@
 
 
 
-        <form name="form1" style="display: none;">
+        <form name="form1" style="display: none;">   <!--把這個藏起來。用戶點擊了『button上傳大頭貼』之後，這個form表單就會直接上傳圖片。--->
             <input type="file" id="avatar" name="avatar">
         </form>
     </div>
@@ -31,6 +31,21 @@
     
     <script>
         const avatar = document.querySelector('#avatar');
+
+        avatar.addEventListener('change', async event => {   //?? 為何這裡要用change??不能用click嗎？
+            const fd = new FormData(document.form1);   //formData的來源就是隱藏的表單form1
+            const res = await fetch('/try-upload2', {
+                method: 'POST',
+                body: fd
+
+            });
+            const obj = await res.json();
+            
+            document.querySelector('#img01').src = '/img/' + obj.filename;
+            
+            document.fake_form.my_img.value = obj.filename;  // 如果要把用戶上傳的檔案，儲存到資料庫的時候，就存檔名就好。然後這個欄位可以藏起來
+
+        });
     </script>
   </body>
 </html>
