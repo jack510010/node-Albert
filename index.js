@@ -89,6 +89,36 @@ app.post('/try-upload3', uploadImg.array('photos', 10), async (req, res) => {
     res.json(req.files);
 });
 
+app.get('/my-params/:action/:id(\\d+)?', (req, res) => {
+// 這個拿到一定是字串
+    res.json(req.params);
+});
+app.get('/my-params1/:action/:id', (req, res) => {
+// 這個拿到一定是字串
+    res.json(req.params);
+});
+
+app.get('/my-params2/:action?/:id?', (req, res) => {
+// 這個拿到一定是字串
+    res.json(req.params);
+});
+
+app.get('/my-params3/*/*?', (req, res) => {
+// 這個拿到一定是字串
+    res.json(req.params);
+});
+
+app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i , (req, res) => {
+// 這個拿到一定是字串
+    let u = req.url.split('?')[0];    //意思是？後面的東西不要
+    u = u.slice(3);                   //意思是『/m/』這串不要
+    u = u.split('-').join('');        //意思是『-』不要，然後用空字串接起來
+    res.json({
+        url: req.url,
+        mobile: u
+    });
+});
+
 //--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
 app.get('/headshots', (req,res) => {
     res.render('headshots');
