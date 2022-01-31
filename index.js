@@ -121,6 +121,8 @@ app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i , (req, res) => {
 
 app.use(require('./routes/admin2'));   // 當成middleware來使用
 
+app.use('/admin3', require('./routes/admin3'));   // 當成middleware來使用
+
 //--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
 app.get('/headshots', (req,res) => {
     res.render('headshots');
