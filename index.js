@@ -22,7 +22,10 @@ app.use(express.static('public'));  // 使用靜態內容的資料夾要放在�
 app.use('/jquery', express.static('node_modules/jquery/dist/'));     // 放進jquery，複製相對路徑
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));  // 放進bootstrap，複製相對路徑
 
-
+app.use((req, res, next) => {
+    res.locals.title = '小雍的網站';
+    next();   // 呼叫下一個。 如果沒有呼叫下一個他就什麼事都不做。
+});
 
 // 路由定義開始: Begin
 app.get('/', (req, res)=>{ 
