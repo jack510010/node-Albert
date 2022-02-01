@@ -1,0 +1,14 @@
+傳統的做法
+    列表：
+    /products?page=12
+    /products/list/12
+
+    新增：
+    /products/add
+    /products/create
+
+    修改：
+    /products/17/edit
+    /products/17/update
+    /products/edit/17
+    /products/update/17
