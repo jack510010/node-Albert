@@ -3,6 +3,7 @@ require('dotenv').config(); // 載入 .env 的設定    本身require進來就�
 const express = require('express');   
 const multer = require('multer');
 const fs = require('fs').promises;
+const session = require('express-session');
 const upload = multer({dest: 'tmp_uploads/'});
 const uploadImg = require('./modules/upload-images');
 
@@ -14,8 +15,13 @@ app.set('view engine', 'ejs'); // 樣版引擎
 
 
 
-
 //app.use()   use的意思是所有的方法
+app.use(session({
+    saveUninitialized: false,
+    resave: false, // 沒變更內容是否強制回存
+    secret: '加密用的字串 可以隨便打',
+    cookie: {maxAge: 600000}  //單位毫秒 
+}));
 app.use(express.urlencoded({extended: false})); //url格式 可以拿到中介軟體 middleware
 app.use(express.json()); //json格式 這個也是中介軟體 middleware
 app.use(express.static('public'));  // 使用靜態內容的資料夾要放在路由之前。  // 這個是根目錄，所以其他靜態的檔案，例如css、前端的js或者圖檔都可以放在public這個資料夾裡面。 
@@ -124,9 +130,22 @@ app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i , (req, res) => {
     });
 });
 
+//---------------------------------以下是admin2  admin3-------------------------------------------------
+
 app.use(require('./routes/admin2'));   // 當成middleware來使用
 
 app.use('/admin3', require('./routes/admin3'));   // 當成middleware來使用
+
+//---------------------------------以上是admin2  admin3-------------------------------------------------
+
+//---------------------------------以下是session-------------------------------------------------
+
+app.get('/try-sess', (req, res) => {
+    req.session.myVar = req.session.myVar || 0;
+    req.session.myVar++;
+
+    res.json(req.session);
+});
 
 //--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
 app.get('/headshots', (req,res) => {
