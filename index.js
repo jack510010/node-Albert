@@ -29,12 +29,14 @@ app.use((req, res, next) => {
 
 // 路由定義開始: Begin
 app.get('/', (req, res)=>{ 
+    res.locals.title = '首頁 - ' + res.locals.title;
     res.render('home', {name: 'albert'})  // 寫入home.ejs裡面的值，改ejs的話nodemon不會重新啟動，也不需要重新啟動就可以去render新的樣板
 
     //res.send(`<h2>Hello</h2>`);  
 });
 
 app.get('/json-sales', (req, res)=>{ 
+    res.locals.title = 'sales表單 - ' + res.locals.title;
    const sales = require('./data/sales'); // 副檔名可以不寫。他會自動把json的內容轉換成原生的陣列或物件
 
     //console.log(sales);
@@ -128,6 +130,7 @@ app.use('/admin3', require('./routes/admin3'));   // 當成middleware來使用
 
 //--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
 app.get('/headshots', (req,res) => {
+    res.locals.title = '大頭貼上傳 - ' + res.locals.title;
     res.render('headshots');
 });
 
