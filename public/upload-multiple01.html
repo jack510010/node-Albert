@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="container">
+        <form name="fake_form" onsubmit="return false">
+            <div id="imgs">
+
+            </div>
+            <button type="button" class="btn btn-success" onclick="photos.click()">上傳照片</button>
+          <div class="mb-3">
+            <label for="my_img" class="form-label">image</label>
+            <input type="text" class="form-control" id="my_img" name="my_img" />
+        
+          </div>
+          <button type="submit" class="btn btn-primary">submit</button>
+        </form>
+
+
+
+        <form name="form1" style="display: none;">   <!--把這個藏起來。用戶點擊了『button上傳大頭貼』之後，這個form表單就會直接上傳圖片。--->
+            <input type="file" id="photos" name="photos" multiple>
+        </form>
+    </div>
+
+
+    
+    <script>
+        const photos = document.querySelector('#photos'); // 欄位
+        const imgs = document.querySelector('#imgs'); 
+        const imgData = [];  // 用來暫存上傳的圖檔名稱
+
+        const renderImg = () => {
+            imgs.innerHTML = '';
+
+            imgData.forEach(element => {
+                const i = new Image();
+                i.width = 300;
+                i.src = '/img/' + element;
+                imgs.append(i);
+            })
+        };
+
+
+        photos.addEventListener('change', async event => {   //?? 為何這裡要用change??不能用click嗎？
+            const fd = new FormData(document.form1);   //formData的來源就是隱藏的表單form1
+            const res = await fetch('/try-upload3', {
+                method: 'POST',
+                body: fd
+
+            });
+            const arr = await res.json();
+            arr.forEach(element => {
+                imgData.push(element.filename);
+            });
+            
+            renderImg();
+            document.fake_form.my_img.value = JSON.stringify(imgData);
+        });
+    </script>
+  </body>
+</html>
