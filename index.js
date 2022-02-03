@@ -4,6 +4,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs').promises;
 const session = require('express-session');
+const moment = require('moment-timezone');
 const upload = multer({dest: 'tmp_uploads/'});
 const uploadImg = require('./modules/upload-images');
 
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs'); // 樣版引擎
 
 //app.use()   use的意思是所有的方法
 app.use(session({
+    name: 'mySessionId',
     saveUninitialized: false,
     resave: false, // 沒變更內容是否強制回存
     secret: '加密用的字串 可以隨便打',
