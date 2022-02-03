@@ -149,6 +149,22 @@ app.get('/try-sess', (req, res) => {
     res.json(req.session);
 });
 
+app.get('/try-moment', (req, res) => {
+    const fm = 'YYYY-MMM-Do, HH:mm:ss';
+
+    res.json({
+        m1: moment().format(fm),
+        m2: moment().tz('Europe/Paris').format(fm),
+        m3: moment().tz('Europe/London').format(fm),
+        m4: moment().tz('Asia/Tokyo').format(fm),
+        m5: moment().tz('Asia/Seoul').format(fm),
+        m6: moment().tz('Australia/Sydney').format(fm),
+        m7: moment().tz('Africa/Cairo').format(fm),
+        m8: moment().tz('America/Los_Angeles').format(fm),
+        m9: moment().tz('Pacific/Auckland').format(fm),
+        
+    });
+});
 //--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
 app.get('/headshots', (req,res) => {
     res.locals.title = '大頭貼上傳 - ' + res.locals.title;
