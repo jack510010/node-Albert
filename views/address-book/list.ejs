@@ -22,7 +22,7 @@
                     <td><%= i.name %> </td>
                     <td><%= i.email %> </td>
                     <td><%= i.mobile %> </td>
-                    <td><%= i.birthday %> </td>
+                    <td><%= dateToString(i.birthday) %> </td>  <!--dateToString 這個功能在index.js裡面的 自訂的middleware-->
                     <td><%= i.address %> </td>
                   </tr>
                 <% } %> 

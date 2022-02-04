@@ -34,10 +34,24 @@ app.use(express.static('public'));  // 使用靜態內容的資料夾要放在�
 app.use('/jquery', express.static('node_modules/jquery/dist/'));     // 放進jquery，複製相對路徑
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));  // 放進bootstrap，複製相對路徑
 
+//--------------------------------以下是自訂的 middleware-----------------------------------------------
+
 app.use((req, res, next) => {
-    res.locals.title = '小雍的網站';
+    res.locals.title = '小雍的網站';  // title  會進到template裡面
+
+    // 設定 template 的 helper func;
+
+    res.locals.dateToString = date => moment(date).format('YYYY-MMM-Do');
+    // dateToString  會進到template裡面。 傳一個date物件進來，將它轉換成moment()格式
+
+    res.locals.dateTimeToString = dateTime => moment(dateTime).format('YYYY-MMM-Do, HH:mm:ss');
+    // dateTimeToString  會進到template裡面。  傳一個dateTime物件進來，將它轉換成moment()格式
+    
+    
     next();   // 呼叫下一個。 如果沒有呼叫下一個他就什麼事都不做。
 });
+
+//--------------------------------以上是自訂的 middleware-----------------------------------------------
 
 // 路由定義開始: Begin
 app.get('/', (req, res)=>{ 
