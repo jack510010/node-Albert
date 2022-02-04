@@ -1,7 +1,7 @@
 const db = require('./../modules/connect-mysql');
 
 
-db.query("SELECT * FROM address_book LIMIT 5")
+db.query("SELECT * FROM address_book LIMIT 3,2")
 .then(([r]) => {
     console.log(r);
     process.exit();
@@ -27,5 +27,7 @@ db.query("SELECT * FROM address_book LIMIT 5")    db.query() 裡面會有3個值
 .then(([r]) => {
 
 })
-
+.catch(ex => {
+    console.log(ex);
+})
 */
