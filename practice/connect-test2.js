@@ -2,8 +2,9 @@ const db = require('./../modules/connect-mysql');
 
 
 db.query("SELECT * FROM address_book LIMIT 3,2")
-.then(([r]) => {
-    console.log(r);
+.then(([result, fields]) => {
+    console.log(result);
+    console.log(fields);
     process.exit();
 })
 .catch(ex => {
@@ -24,7 +25,7 @@ db.query("SELECT * FROM address_book LIMIT 5")    db.query() 裡面會有3個值
 })
 
 所以要改寫成
-.then(([r]) => {
+.then(([result, fields]) => {
 
 })
 .catch(ex => {
