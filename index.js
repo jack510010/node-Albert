@@ -4,10 +4,12 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs').promises;
 const session = require('express-session');
+const MysqlStore = require('express-mysql-session')(session);  // require進來的這個東西『'express-mysql-session' 』是一個func
 const moment = require('moment-timezone');
 const upload = multer({dest: 'tmp_uploads/'});
 const uploadImg = require('./modules/upload-images');
 const db = require('./modules/connect-mysql');
+const sessionStore = new MysqlStore({}, db);  // {}的裡面原本是要放『host:、user:、database:』等等，但我們已經在別的地方建立好了db，所以直接 {} 然後逗號db就可以了。
 
 
 const app = express();  
@@ -23,6 +25,7 @@ app.use(session({
     saveUninitialized: false,
     resave: false, // 沒變更內容是否強制回存
     secret: '加密用的字串 可以隨便打',
+    store: sessionStore,
     cookie: {maxAge: 600000}  //單位毫秒 
 }));
 app.use(express.urlencoded({extended: false})); //url格式 可以拿到中介軟體 middleware
@@ -150,6 +153,10 @@ app.get('/try-sess', (req, res) => {
     res.json(req.session);
 });
 
+//---------------------------------以上是session-------------------------------------------------
+
+//---------------------------------以下是moment-------------------------------------------------
+
 app.get('/try-moment', (req, res) => {
     const fm = 'YYYY-MMM-Do, HH:mm:ss';
 
@@ -167,12 +174,18 @@ app.get('/try-moment', (req, res) => {
     });
 });
 
+//---------------------------------以上是moment-------------------------------------------------
+
+//---------------------------------以下是連接資料庫-------------------------------------------------
+
 app.get('/try-db', async (req, res) => {
     const [result,fields] = await db.query("SELECT * FROM address_book WHERE `name` LIKE ?", ['%雍哥%']);
     // const [result,fields] = await db.query("SELECT * FROM address_book WHERE `name` LIKE '%雍哥%'");  // 這樣寫也可以。
 
     res.json(result);
 });
+
+//---------------------------------以下是連接資料庫-------------------------------------------------
 
 //--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
 app.get('/headshots', (req,res) => {
