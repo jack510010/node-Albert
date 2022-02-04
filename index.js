@@ -7,6 +7,7 @@ const session = require('express-session');
 const moment = require('moment-timezone');
 const upload = multer({dest: 'tmp_uploads/'});
 const uploadImg = require('./modules/upload-images');
+const db = require('./modules/connect-mysql');
 
 
 const app = express();  
@@ -165,6 +166,14 @@ app.get('/try-moment', (req, res) => {
         
     });
 });
+
+app.get('/try-db', async (req, res) => {
+    const [result,fields] = await db.query("SELECT * FROM address_book WHERE `name` LIKE ?", ['%雍哥%']);
+    // const [result,fields] = await db.query("SELECT * FROM address_book WHERE `name` LIKE '%雍哥%'");  // 這樣寫也可以。
+
+    res.json(result);
+});
+
 //--------------------------------以下是headshots------------注意！！ fs加上promises之後這裡就會爛掉----------------------------
 app.get('/headshots', (req,res) => {
     res.locals.title = '大頭貼上傳 - ' + res.locals.title;
