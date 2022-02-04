@@ -142,6 +142,8 @@ app.use(require('./routes/admin2'));   // 當成middleware來使用
 
 app.use('/admin3', require('./routes/admin3'));   // 當成middleware來使用
 
+app.use('/address-book', require('./routes/address-book'));
+
 //---------------------------------以上是admin2  admin3-------------------------------------------------
 
 //---------------------------------以下是session-------------------------------------------------
