@@ -39,6 +39,8 @@ app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));  // 放進
 app.use((req, res, next) => {
     res.locals.title = '小雍的網站';  // title  會進到template裡面
 
+    res.locals.pageName = '';
+
     // 設定 template 的 helper func;
 
     res.locals.dateToString = date => moment(date).format('YYYY-MMM-Do');
@@ -61,9 +63,10 @@ app.get('/', (req, res)=>{
     //res.send(`<h2>Hello</h2>`);  
 });
 
-app.get('/json-sales', (req, res)=>{ 
+app.get('/json-sales', (req, res)=>{
+    res.locals.pageName = 'json-sales'
     res.locals.title = 'sales表單 - ' + res.locals.title;
-   const sales = require('./data/sales'); // 副檔名可以不寫。他會自動把json的內容轉換成原生的陣列或物件
+    const sales = require('./data/sales'); // 副檔名可以不寫。他會自動把json的內容轉換成原生的陣列或物件
 
     //console.log(sales);
     //res.json(sales);

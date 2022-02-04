@@ -8,6 +8,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/list', async(req, res) => {
+    res.locals.pageName = 'address-book list';
     const perPage = 5;  // 每一頁有幾筆
     let page = parseInt(req.query.page) || 1;
 
