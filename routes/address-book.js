@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     res.render('address-book/main');
 });
+//------------------------------------這段以下是list-----------------------------------------
 
 router.get('/list', async(req, res) => {
     res.locals.pageName = 'address-book list';
@@ -52,5 +53,21 @@ router.get('/list', async(req, res) => {
     // res.json(output);
     res.render('address-book/list', output);
 });
+
+//------------------------------------這段以上是list-----------------------------------------
+
+
+//------------------------------------這段以下是delete-----------------------------------------
+
+router.delete('/delete/:sid([0-9]+)', async (req, res) => {  // regular expression [0-9]+  0~9的數字1個以上
+    const sql = `DELETE FROM address_book WHERE sid=?`;
+
+    const [result, fields] = await db.query(sql, [req.params.sid]);  // query 的結果是一個array
+
+    console.log({result});  // 這邊的 result 是個物件
+
+    res.json(result);
+});
+//------------------------------------這段以上是delete-----------------------------------------
 
 module.exports = router;  // 匯出router， 原則上這就是一個middleware。
