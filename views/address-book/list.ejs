@@ -52,23 +52,35 @@
             <table class="table table-bordered table-striped table-warning">
                 <thead>
                     <tr>
+                        <th scope="col"><i class="fas fa-times"></i></th>
                         <th scope="col">#</th>
                         <th scope="col">name</th>
                         <th scope="col">email</th>
                         <th scope="col">mobile</th>
                         <th scope="col">birthday</th>
                         <th scope="col">address</th>
+                        <th scope="col"><i class="far fa-edit"></i></th>
                     </tr>
                 </thead>
                 <tbody>
                 <% for(let i of rows){ %> 
                     <tr>
+                        <td>
+                            <a href="javascript: delete_it(<%= i.sid %>)">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </td>
                         <td><%= i.sid %> </td>
                         <td><%= i.name %> </td>
                         <td><%= i.email %> </td>
                         <td><%= i.mobile %> </td>
                         <td><%= dateToString(i.birthday) %> </td>  <!--dateToString 這個功能在index.js裡面的 自訂的middleware-->
                         <td><%= i.address %> </td>
+                        <td>
+                            <a href="/address-book/edit/<%= i.sid %>">
+                                <i class="far fa-edit"></i>
+                            </a>
+                        </td>
                     </tr>
                 <% } %> 
                 </tbody>
