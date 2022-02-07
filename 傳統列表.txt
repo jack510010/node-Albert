@@ -12,3 +12,21 @@
     /products/17/update
     /products/edit/17
     /products/update/17
+
+
+restful API 的做法
+
+     列表：
+          GET /products
+
+     讀取單筆：
+          GET /products/:id
+
+     新增：
+          POST /products
+
+     修改：
+          PUT /products/:id
+
+     刪除：
+          DELETE /products/:id
