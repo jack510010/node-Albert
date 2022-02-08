@@ -14,7 +14,7 @@ router.get('/list', async(req, res) => {
     let page = parseInt(req.query.page) || 1;
 
     const output = {
-
+    
     };
 
     // totalRows 求總筆數
@@ -36,7 +36,7 @@ router.get('/list', async(req, res) => {
     output.rows = [];
     output.page = page;
     
-
+    
     if(totalRows > 0){
         if(page < 1){
             return res.redirect('?page=1');
@@ -69,5 +69,18 @@ router.delete('/delete/:sid([0-9]+)', async (req, res) => {  // regular expressi
     res.json(result);
 });
 //------------------------------------這段以上是delete-----------------------------------------
+
+
+
+router.route('/add')
+    .get( async (req, res) => {  
+        res.locals.pageName = 'address-book add';
+        res.render('address-book/add');
+    })
+    
+    .post( async (req, res) => {  
+        res.json({});
+    });
+
 
 module.exports = router;  // 匯出router， 原則上這就是一個middleware。
