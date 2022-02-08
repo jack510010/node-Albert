@@ -81,7 +81,13 @@
             body: new URLSearchParams(fd).toString(),  // 在這一行轉換成 urlencoded的模式。
         })
         .then(r => r.json()).then(obj => {
-            console.log(obj);
+            console.log(JSON.stringify(obj, null, 2));
+
+            if(obj.success) {
+                location.href ='/address-book/list';
+            }else{
+                alert('資料無法新增成功\n' + (obj.error || ''));
+            }
         });
 
 /*

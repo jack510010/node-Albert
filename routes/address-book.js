@@ -105,11 +105,20 @@ router.route('/add')
             req.body.birthday,
             req.body.address,
         ]);
+        !~~~~空字串『不等於是』空值
         */
 
         const input = {... req.body, created_at: new Date()};  // ... 把他展開來，多一個少一個都不行
         const sql = `INSERT INTO address_book SET ?`;
-        const [result] = await db.query(sql,[input]);
+        let result = {};
+        // 處理新增資料時可能發生的錯誤
+        try{
+            [result] = await db.query(sql,[input]);
+        }
+        catch(ex){
+            output.error = ex.toString();
+        }
+        
 
 
         output.result = result;
