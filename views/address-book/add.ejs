@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <h5 class="card-title">新增通訊錄</h5>
 
-                    <form>
+                    <form name="form1" onsubmit="checkForm(); return false;" > <!--相當於prevent default-->
                         <div class="mb-3">
                             <label for="name" class="form-label">name </label>
                             <input type="text" class="form-control" id="name" name="name" required placeholder="請填入真實姓名">
@@ -40,7 +40,7 @@
                             <textarea name="address" id="address" class="form-control cols="30" rows="10"></textarea>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">新增</button>
                     </form>
                 </div>
               </div>
@@ -52,4 +52,22 @@
 
 
 <%- include('../parts/scripts') %> 
+<script>
+    //todo: 欄位檢查
+    function checkForm(){
+        // const usp = new URLSearchParams(new FormData(document.form1));
+        // console.log(usp.toString());
+
+
+        // 以 multipart/form-data 的格式送出
+        const fd = new FormData(document.form1);
+        fetch('',{
+            method: 'POST',
+            body: fd
+        })
+        .then(r => r.json()).then(obj => {
+            console.log(obj);
+        })
+    };
+</script>
 <%- include('../parts/html-foot') %>

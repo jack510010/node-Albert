@@ -1,5 +1,7 @@
 const express = require('express');
 const db = require('./../modules/connect-mysql');
+const upload = require('./../modules/upload-images');
+
 // 路由模組化
 const router = express.Router();
 
@@ -71,6 +73,8 @@ router.delete('/delete/:sid([0-9]+)', async (req, res) => {  // regular expressi
 //------------------------------------這段以上是delete-----------------------------------------
 
 
+//------------------------------------這段以下是create-----------------------------------------
+
 
 router.route('/add')
     .get( async (req, res) => {  
@@ -78,8 +82,8 @@ router.route('/add')
         res.render('address-book/add');
     })
     
-    .post( async (req, res) => {  
-        res.json({});
+    .post(upload.none(), async (req, res) => {  
+        res.json(req.body);
     });
 
 
