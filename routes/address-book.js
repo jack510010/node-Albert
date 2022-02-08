@@ -10,18 +10,22 @@ router.get('/', (req, res) => {
 });
 //------------------------------------這段以下是list-----------------------------------------
 
-router.get('/list', async(req, res) => {
+router.get('/list', async (req, res) => {
     res.locals.pageName = 'address-book list';
-    const perPage = 5;  // 每一頁有幾筆
+    const perPage = 5; // 每一頁有幾筆
     let page = parseInt(req.query.page) || 1;
 
     const output = {
-    
+
     };
 
     // totalRows 求總筆數
-    const totalSql = `SELECT COUNT(1) totalRows FROM address_book`  // 可以去phpMyAdmin 的 sql那邊把語法寫好之後，在這裡貼上就不怕寫錯。
-    const [[{totalRows}]] = await db.query(totalSql);
+    const totalSql = `SELECT COUNT(1) totalRows FROM address_book` // 可以去phpMyAdmin 的 sql那邊把語法寫好之後，在這裡貼上就不怕寫錯。
+    const [
+        [{
+            totalRows
+        }]
+    ] = await db.query(totalSql);
     output.totalRows = totalRows;
 
     /*
@@ -33,17 +37,17 @@ router.get('/list', async(req, res) => {
     ! 所以會寫成 [[{totalRows}]]
     */
 
-    output.totalPages = Math.ceil(totalRows / perPage);  // 求總頁數
-    output.perPage = perPage;  // 每一頁有幾筆
+    output.totalPages = Math.ceil(totalRows / perPage); // 求總頁數
+    output.perPage = perPage; // 每一頁有幾筆
     output.rows = [];
     output.page = page;
-    
-    
-    if(totalRows > 0){
-        if(page < 1){
+
+
+    if (totalRows > 0) {
+        if (page < 1) {
             return res.redirect('?page=1');
         }
-        if(page > output.totalPages){
+        if (page > output.totalPages) {
             return res.redirect('?page=' + output.totalPages);
         }
         const sql = `SELECT * FROM address_book ORDER BY sid DESC LIMIT ${(page - 1) * perPage}, ${perPage}`;
@@ -61,12 +65,14 @@ router.get('/list', async(req, res) => {
 
 //------------------------------------這段以下是delete-----------------------------------------
 
-router.delete('/delete/:sid([0-9]+)', async (req, res) => {  // regular expression [0-9]+  0~9的數字1個以上
+router.delete('/delete/:sid([0-9]+)', async (req, res) => { // regular expression [0-9]+  0~9的數字1個以上
     const sql = `DELETE FROM address_book WHERE sid=?`;
 
-    const [result, fields] = await db.query(sql, [req.params.sid]);  // query 的結果是一個array
+    const [result, fields] = await db.query(sql, [req.params.sid]); // query 的結果是一個array
 
-    console.log({result});  // 這邊的 result 是個物件
+    console.log({
+        result
+    }); // 這邊的 result 是個物件
 
     res.json(result);
 });
@@ -77,14 +83,45 @@ router.delete('/delete/:sid([0-9]+)', async (req, res) => {  // regular expressi
 
 
 router.route('/add')
-    .get( async (req, res) => {  
+    .get(async (req, res) => {
         res.locals.pageName = 'address-book add';
         res.render('address-book/add');
     })
-    
-    .post( async (req, res) => {  
-        res.json(req.body);
+
+    .post(async (req, res) => {
+        //todo 欄位檢查
+        const output = {
+            success: false,
+        }
+
+        const sql = "INSERT INTO `address_book`(" + 
+        "`name`, `email`, `mobile`, `birthday`, `address`, `created_at`) VALUES (?, ?, ?, ?, ?, NOW())";
+
+        const [result, err] = await db.query(sql,[
+            req.body.name,
+            req.body.email,
+            req.body.mobile,
+            req.body.birthday,
+            req.body.address,
+        ]);
+        output.result = result;
+        if(result.affectedRows && result.insertId){
+            output.success = true;
+        }
+
+        console.log({result});
+        /*
+        {
+            "fieldCount":0,
+            "affectedRows":1,     新增、修改、刪除
+            "insertId":110119,
+            "info":"",
+            "serverStatus":2,
+            "warningStatus":0
+        }
+        */
+        res.json(output);
     });
 
 
-module.exports = router;  // 匯出router， 原則上這就是一個middleware。
+module.exports = router; // 匯出router， 原則上這就是一個middleware。
