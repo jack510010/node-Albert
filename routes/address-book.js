@@ -94,16 +94,24 @@ router.route('/add')
             success: false,
         }
 
+        /*   新增資料功能  之一
         const sql = "INSERT INTO `address_book`(" + 
         "`name`, `email`, `mobile`, `birthday`, `address`, `created_at`) VALUES (?, ?, ?, ?, ?, NOW())";
 
-        const [result, err] = await db.query(sql,[
+        const [result] = await db.query(sql,[
             req.body.name,
             req.body.email,
             req.body.mobile,
             req.body.birthday,
             req.body.address,
         ]);
+        */
+
+        const input = {... req.body, created_at: new Date()};  // ... 把他展開來，多一個少一個都不行
+        const sql = `INSERT INTO address_book SET ?`;
+        const [result] = await db.query(sql,[input]);
+
+
         output.result = result;
         if(result.affectedRows && result.insertId){
             output.success = true;
