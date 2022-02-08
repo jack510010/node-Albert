@@ -82,7 +82,7 @@ router.route('/add')
         res.render('address-book/add');
     })
     
-    .post(upload.none(), async (req, res) => {  
+    .post( async (req, res) => {  
         res.json(req.body);
     });
 

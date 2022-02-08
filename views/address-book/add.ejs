@@ -59,8 +59,10 @@
         // console.log(usp.toString());
 
 
-        // 以 multipart/form-data 的格式送出
         const fd = new FormData(document.form1);
+
+/*
+        // 以 Content-Type: multipart/form-data 的格式送出
         fetch('',{
             method: 'POST',
             body: fd
@@ -68,6 +70,27 @@
         .then(r => r.json()).then(obj => {
             console.log(obj);
         })
+*/
+
+        // 以 Content-Type: application/x-www-form-urlencoded 的格式送出
+        fetch('',{
+            method: 'POST',
+            headers:{
+                'Content-Type':'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(fd).toString(),  // 在這一行轉換成 urlencoded的模式。
+        })
+        .then(r => r.json()).then(obj => {
+            console.log(obj);
+        });
+
+/*
+        // 以 Content-Type: application/x-www-form-urlencoded 的格式送出
+        // jQuery
+        $.post('', $(document.form1).serialize(), function(data){
+
+        }, 'json');
+*/ 
     };
 </script>
 <%- include('../parts/html-foot') %>
