@@ -142,4 +142,38 @@ router.route('/add')
 
 //------------------------------------這段以上是create-----------------------------------------
 
+
+//------------------------------------這段以下是edit-----------------------------------------
+
+
+router.route('/edit/:sid')
+    .get(async (req, res) => {
+        const sql = `SELECT * FROM address_book WHERE sid =?`;
+        // req.params：路徑上的變數代稱
+        const [result] = await db.query(sql, [req.params.sid]);
+
+
+        if(result.length){
+            res.render('address-book/edit', {rows: result[0]});
+        }else{
+            res.redirect('/address-book/list');
+        } // 有這筆資料的話就呈現出來
+
+
+    })
+
+    .post(async (req, res) => {
+        //todo 欄位檢查
+        const output = {
+            success: false,
+            postData: req.body,
+        }
+
+
+        res.json(output);
+    });
+
+
+//------------------------------------這段以上是edit-----------------------------------------
+
 module.exports = router; // 匯出router， 原則上這就是一個middleware。

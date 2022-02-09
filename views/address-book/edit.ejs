@@ -1,0 +1,89 @@
+<!-- 原則上ejs的檔案就是放html -->
+<%- include('../parts/html-head') %> 
+<%- include('../parts/navbar') %> 
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card" >
+                
+                <div class="card-body">
+                    <h5 class="card-title">編輯通訊錄</h5>
+
+                    <form name="form1" onsubmit="checkForm(); return false;" > <!--相當於prevent default-->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">name </label>
+                            <input type="text" class="form-control" id="name" name="name" required placeholder="請填入真實姓名"
+                                value="<%= rows.name %> ">
+                            
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email </label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                value="<%= rows.email %> ">
+                            
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="mobile" class="form-label">mobile </label>
+                            <input type="text" class="form-control" id="mobile" name="mobile"
+                                value="<%= rows.mobile %> ">
+                            
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="birthday" class="form-label">birthday </label>
+                            <input type="date" class="form-control" id="birthday" name="birthday"
+                                value="<%= dateToString(rows.birthday) %> ">
+                            
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="address" class="form-label">address </label>
+                            <textarea name="address" id="address" class="form-control cols="30" rows="10" ><%= rows.address%></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">更改</button>
+                    </form>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<%- include('../parts/scripts') %> 
+<script>
+    //todo: 欄位檢查
+    function checkForm(){
+        // const usp = new URLSearchParams(new FormData(document.form1));
+        // console.log(usp.toString());
+
+
+        const fd = new FormData(document.form1);
+
+
+        fetch('',{
+            method: 'POST',
+            headers:{
+                'Content-Type':'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(fd).toString(),  // 在這一行轉換成 urlencoded的模式。
+        })
+        .then(r => r.json()).then(obj => {
+            console.log(JSON.stringify(obj, null, 2));
+
+            if(obj.success) {
+                location.href ='/address-book/list';
+            }else{
+                alert('資料無法新增成功\n' + (obj.error || ''));
+            }
+        });
+
+
+    };
+</script>
+<%- include('../parts/html-foot') %>
