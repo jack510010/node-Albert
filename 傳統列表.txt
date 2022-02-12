@@ -30,3 +30,14 @@ restful API 的做法
 
      刪除：
           DELETE /products/:id
+
+-----------------------以address-book為例-----------------------------------------
+api/address-book
+    GET: 取得列表資料
+    POST: 新增資料
+
+api/address-book/:sid
+    GET: 取得單項資料
+    這邊的區域就沒有 POST
+    PUT: 修改單項資料
+    DELETE: 刪除單項資料
