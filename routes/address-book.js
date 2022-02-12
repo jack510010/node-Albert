@@ -15,12 +15,25 @@ router.get('/list', async (req, res) => {
     const perPage = 5; // 每一頁有幾筆
     let page = parseInt(req.query.page) || 1;
 
+    //---------------------------這段以下至做搜尋功能-------------------------------------
+
+    let keyword = req.query.keyword || '';  //  要來做搜尋功能
+
+    res.locals.keyword = keyword; // 傳給template
+
+    //---------------------------這段以上至做搜尋功能-------------------------------------
+
     const output = {
 
     };
 
+    let where = " WHERE 1 "  // 給搜尋條件一個 title
+    if(keyword){             // 如果有搜尋條件的keyword，就把下面這串接起來
+        where += ` AND name LIKE ${db.escape('%' + keyword + '%')} `  // db.escape: 會在外面幫你加上單引號。
+    }; //!  就可以得到一個新的變數 『 where 』作為sql搜尋條件的子句
+
     // totalRows 求總筆數
-    const totalSql = `SELECT COUNT(1) totalRows FROM address_book` // 可以去phpMyAdmin 的 sql那邊把語法寫好之後，在這裡貼上就不怕寫錯。
+    const totalSql = `SELECT COUNT(1) totalRows FROM address_book ${where}`; // 會變成帶有搜尋條件下的總筆數，因為加了 ${where} 。
     const [
         [{
             totalRows
@@ -50,7 +63,7 @@ router.get('/list', async (req, res) => {
         if (page > output.totalPages) {
             return res.redirect('?page=' + output.totalPages);
         }
-        const sql = `SELECT * FROM address_book ORDER BY sid DESC LIMIT ${(page - 1) * perPage}, ${perPage}`;
+        const sql = `SELECT * FROM address_book ${where} ORDER BY sid DESC LIMIT ${(page - 1) * perPage}, ${perPage}`;
         const [rows] = await db.query(sql);
         output.rows = rows;
 
