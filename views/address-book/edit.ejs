@@ -14,28 +14,28 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">name </label>
                             <input type="text" class="form-control" id="name" name="name" required placeholder="請填入真實姓名"
-                                value="<%= rows.name %> ">
+                                value="<%= rows.name %>">
                             
                         </div>
                         
                         <div class="mb-3">
                             <label for="email" class="form-label">Email </label>
                             <input type="email" class="form-control" id="email" name="email" 
-                                value="<%= rows.email %> ">
+                                value="<%= rows.email %>">
                             
                         </div>
                         
                         <div class="mb-3">
                             <label for="mobile" class="form-label">mobile </label>
                             <input type="text" class="form-control" id="mobile" name="mobile"
-                                value="<%= rows.mobile %> ">
+                                value="<%= rows.mobile %>">
                             
                         </div>
                         
                         <div class="mb-3">
                             <label for="birthday" class="form-label">birthday </label>
                             <input type="date" class="form-control" id="birthday" name="birthday"
-                                value="<%= dateToString(rows.birthday) %> ">
+                                value="<%= dateToString(rows.birthday) %>">
                             
                         </div>
                         
@@ -77,9 +77,10 @@
             console.log(JSON.stringify(obj, null, 2));
 
             if(obj.success) {
-                location.href ='/address-book/list';
+                alert('修改好了喔～～');
+                location.href = '/address-book/list';
             }else{
-                alert('資料無法新增成功\n' + (obj.error || ''));
+                alert(obj.error || '不能修改欸～ㅠㅠ');
             }
         });
 
