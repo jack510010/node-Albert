@@ -16,7 +16,7 @@ async function getListData(req, res){
 
     keyword = keyword.trim(); // 搜尋時，去掉頭尾不小心按到的空白
 
-    res.locals.keyword = keyword; // 傳給template
+    //res.locals.keyword = keyword; // 傳給template
 
     //---------------------------這段以上至做搜尋功能-------------------------------------
 
@@ -26,6 +26,7 @@ async function getListData(req, res){
 
     let where = " WHERE 1 "  // 給搜尋條件一個 title
     if(keyword){             // 如果有搜尋條件的keyword，就把下面這串接起來
+        output.keyword = keyword;
         where += ` AND name LIKE ${db.escape('%' + keyword + '%')} `  // db.escape: 會在外面幫你加上單引號。
     }; //!  就可以得到一個新的變數 『 where 』作為sql搜尋條件的子句
 
@@ -52,7 +53,7 @@ async function getListData(req, res){
     output.rows = [];
     output.page = page;
 
-
+    // 如果有資料才去取得分頁資料
     if (totalRows > 0) {
         if (page < 1) {
             output.redirect = '?page=1';

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/fontawesome/css/all.css" />
     <style>
         i {
-            font-size: 3rem;
+            font-size: 1rem;
             color: red;
         }
     </style>
@@ -78,18 +78,127 @@
         </nav>
     </div>
     <div class="container">
-        <textarea name="" id="ta" cols="60" rows="20"></textarea>
+        <!-- <textarea name="" id="ta" cols="60" rows="20"></textarea> -->
+
+        <div class="row">
+          <div class="col">
+              <table class="table table-bordered table-striped table-warning">
+                  <thead>
+                      <tr>
+                          <th scope="col"><i class="fas fa-times"></i></th>
+                          <th scope="col">#</th>
+                          <th scope="col">name</th>
+                          <th scope="col">email</th>
+                          <th scope="col">mobile</th>
+                          <th scope="col">birthday</th>
+                          <th scope="col">address</th>
+                          <th scope="col"><i class="far fa-edit"></i></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+<!--                  
+                      <tr>
+                          <td>
+                              <a href="javascript: delete_it(37)">
+                                  <i class="fas fa-times"></i>
+                              </a>
+                          </td>
+                          <td>37 </td>
+                          <td>abcOMG </td>
+                          <td>316@gmail.com </td>
+                          <td>0900-978-978 </td>
+                          <td>2020-04-01 </td>  
+                          <td>abcdef </td>
+                          <td>
+                              <a href="/address-book/edit/37">
+                                  <i class="far fa-edit"></i>
+                              </a>
+                          </td>
+                      </tr>
+-->                  
+                    
+                  
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+        
     </div>
 
     <script src="/jquery/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script>
-         fetch('/address-book/api/list')
+      const itemTpl = object => {  // 準備好前端的樣板，一班是寫成 func 比較好處理
+
+        return `
+          <tr>
+              <td>
+                  <a href="javascript: delete_it(${object.sid})">
+                      <i class="fas fa-times"></i>
+                  </a>
+              </td>
+              <td>${object.sid}</td>
+              <td>${object.name}</td>
+              <td>${object.email}</td>
+              <td>${object.mobile}</td>
+              <td>${object.birthday}</td>  
+              <td>${object.address}</td>
+              <td>
+                  <a href="/address-book/edit/${object.sid}">
+                      <i class="far fa-edit"></i>
+                  </a>
+              </td>
+          </tr>
+        `;
+      }
+
+      
+//-----------------------以下是用 一般方式來寫--------------------------------
+
+        // fetch('/address-book/api/list') // 先透過 ajax 去拿到資料
+        // .then(r => r.json())
+        // .then(data => {
+        //     console.log(data);
+        //     // document.querySelector('#ta').value = JSON.stringify(data, null, 3);
+        //     let str = '';
+
+        //     if(data.rows && data.rows.length){
+
+        //       data.rows.forEach(element => {
+
+        //         str += itemTpl(element);  // 每個項目都是一段一段的，然後把他們接起來
+
+        //       })
+        //     }
+        //     document.querySelector('tbody').innerHTML = str;   // 前端生頁面出來
+        // });
+//-----------------------以上是用 一般方式來寫--------------------------------
+
+
+//-----------------------以下是用 react 的風格來寫--------------------------------
+
+        fetch('/address-book/api/list') 
         .then(r => r.json())
         .then(data => {
-            console.log(data);
-            document.querySelector('#ta').value = JSON.stringify(data, null, 3);
+            console.log(data);  // 這個data 長什麼樣子可以去 img 資料夾看console-log.png
+
+            let str = '';
+
+            if(data.rows && data.rows.length){
+
+            // data.rows 是一個array ，可以用 map 方法來取得一個新的 array
+            let newArray = data.rows.map(element => itemTpl(element))
+            console.log('newArray', newArray);  // 長什麼樣子可以去 img 資料夾看 console-log2.png
+
+            finalArray = newArray.join('');
+            console.log('finalArray', newArray.join(''));  // join方法：用空字串接起來     長什麼樣子可以去 img 資料夾看 console-log3.png
+
+            }
+            document.querySelector('tbody').innerHTML = finalArray;   
         })
+
+//-----------------------以上是用 react 的風格來寫--------------------------------
     </script>
 </body>
 </html>
