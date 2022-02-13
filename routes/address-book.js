@@ -5,19 +5,16 @@ const upload = require('./../modules/upload-images');
 // 路由模組化
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('address-book/main');
-});
-//------------------------------------這段以下是list-----------------------------------------
 
-router.get('/list', async (req, res) => {
-    res.locals.pageName = 'address-book list';
+async function getListData(req, res){
     const perPage = 5; // 每一頁有幾筆
     let page = parseInt(req.query.page) || 1;
 
     //---------------------------這段以下至做搜尋功能-------------------------------------
 
     let keyword = req.query.keyword || '';  //  要來做搜尋功能
+
+    keyword = keyword.trim(); // 搜尋時，去掉頭尾不小心按到的空白
 
     res.locals.keyword = keyword; // 傳給template
 
@@ -58,15 +55,33 @@ router.get('/list', async (req, res) => {
 
     if (totalRows > 0) {
         if (page < 1) {
-            return res.redirect('?page=1');
+            output.redirect = '?page=1';
+            return output;
         }
         if (page > output.totalPages) {
-            return res.redirect('?page=' + output.totalPages);
+            output.redirect = '?page=' + output.totalPages;
+            return output;
         }
         const sql = `SELECT * FROM address_book ${where} ORDER BY sid DESC LIMIT ${(page - 1) * perPage}, ${perPage}`;
         const [rows] = await db.query(sql);
         output.rows = rows;
 
+    }
+    return output;
+}
+
+
+router.get('/', (req, res) => {
+    res.render('address-book/main');
+});
+//------------------------------------這段以下是list-----------------------------------------
+
+router.get('/list', async (req, res) => {
+    res.locals.pageName = 'address-book list';
+
+    const output = await getListData(req, res);
+    if(output.redirect){
+        return res.redirect(output.redirect);
     }
 
     // res.json(output);
@@ -74,6 +89,19 @@ router.get('/list', async (req, res) => {
 });
 
 //------------------------------------這段以上是list-----------------------------------------
+
+
+//------------------------------------這段以下是api list-----------------------------------------
+
+router.get('/api/list', async (req, res) => {
+    
+    const output = await getListData(req, res);
+
+    res.json(output);
+});
+
+//------------------------------------這段以上是api list-----------------------------------------
+
 
 
 //------------------------------------這段以下是delete-----------------------------------------
