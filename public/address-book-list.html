@@ -153,7 +153,7 @@
 
         return `
           <li class="page-item ${object.active}">
-              <a class="page-link" href="?page=${object.page}">
+              <a class="page-link" href="javascript: getListData({page: ${object.page}})">
                 ${object.page}
               </a>
           </li>
@@ -211,43 +211,71 @@
 
 //-----------------------以下是用 react 的風格來寫--------------------------------
 
-        fetch('/address-book/api/list') 
-        .then(r => r.json())
-        .then(data => {
-            console.log(data);  // 這個data 長什麼樣子可以去 img 資料夾看console-log.png
+        const render = (data) => {
+          let str = '';
 
-            let str = '';
+          if(data.rows && data.rows.length){
 
-            if(data.rows && data.rows.length){
+          // data.rows 是一個array ，可以用 map 方法來取得一個新的 array
+          let newArray = data.rows.map(element => itemTpl(element))
+          // console.log('newArray', newArray);  // 長什麼樣子可以去 img 資料夾看 console-log2.png
 
-            // data.rows 是一個array ，可以用 map 方法來取得一個新的 array
-            let newArray = data.rows.map(element => itemTpl(element))
-            console.log('newArray', newArray);  // 長什麼樣子可以去 img 資料夾看 console-log2.png
+          finalArray = newArray.join('');
+          // console.log('finalArray', newArray.join(''));  // join方法：用空字串接起來     長什麼樣子可以去 img 資料夾看 console-log3.png
 
-            finalArray = newArray.join('');
-            console.log('finalArray', newArray.join(''));  // join方法：用空字串接起來     長什麼樣子可以去 img 資料夾看 console-log3.png
+          }
+          document.querySelector('tbody').innerHTML = finalArray;
+
+
+
+          // 頁碼開始
+          str = '';
+          
+          for(let i = data.page - 3; i <= data.page + 3; i++) {
+
+            if(i >= 1 && i <= data.totalPages){
+
+              str += pageTpl({
+
+                active: data.page === i ? 'active' : '',
+                page: i,
+                
+              })
+            }        
+          }
+          // console.log('2', str); // 長什麼樣子可以去 chrome 看看
+
+          document.querySelector('.pagination').innerHTML = str
+        };
+
+        const getListData = (opt = {}) => {
+            opt.page = opt.page || 1;
+
+            opt.keyword = opt.keyword || '';
+
+            const usp = new URLSearchParams({
+                
+            });
+
+            usp.set('page', opt.page);
+
+            if(opt.keyword){
+
+                usp.set('keyword', opt.keyword);
 
             }
-            document.querySelector('tbody').innerHTML = finalArray;
 
-//-----------------------以上是用 react 的風格來寫--------------------------------
+            fetch('/address-book/api/list?' + usp.toString()) 
+            .then(r => r.json())
+            .then(data => {
+                console.log(data);  // 這個data 長什麼樣子可以去 img 資料夾看console-log.png
 
-            // 頁碼開始
-            str = '';
-            for(let i = data.page - 3; i <= data.page + 3; i++) {
+                render(data);
 
-              if(i >= 1 && i <= data.totalPages){
+            })
+        }
 
-                str += pageTpl({
-
-                  active: data.page === i ? 'active' : '',
-                  page: i,
-
-                })
-              }              
-            }
-            document.querySelector('.pagination').innerHTML = str
-        })
+        getListData()
 
 
     </script>
