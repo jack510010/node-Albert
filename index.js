@@ -41,6 +41,8 @@ app.use((req, res, next) => {
 
     res.locals.pageName = '';
 
+    res.locals.keyword = '';
+
     // 設定 template 的 helper func;
 
     res.locals.dateToString = date => moment(date).format('YYYY-MM-DD');

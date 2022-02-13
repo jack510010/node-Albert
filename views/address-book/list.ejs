@@ -7,36 +7,47 @@
             <nav aria-label="Page navigation example">
 
                 <ul class="pagination justify-content-center">
-
+                <% const usp = new URLSearchParams();
+                    if(keyword){
+                        usp.set('keyword', keyword);
+                    }
+                    usp.set('page', 1);
+                %> 
                     <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
-                        <a class="page-link " href="?page=1">
+                        <a class="page-link " href="?<%= usp.toString() %>">
                             <i class="fas fa-angle-double-left"></i>
                         </a>
                     </li>
-
+                    <% usp.set('page', page - 1); %> 
                     <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
-                        <a class="page-link" href="?page=<%= page - 1 %> ">
+                        <a class="page-link" href="?<%= usp.toString() %>">
                             Previous
                         </a>
                     </li>
 
-                    <% for( let i = page - 4; i < page + 3; i++ ) { %>
-                        <% if (i >= 1  && i <= totalPages) { %>
+                    <% for( let i = page - 3; i < page + 3; i++ ) { %>
+                        <% if (i >= 1  && i <= totalPages) {
+                            const usp = new URLSearchParams({page: i});  // 取得網頁參數部分  key: page, value: i
+                            if(keyword){
+                                usp.set('keyword', keyword);  // URLSearchParams.set(key, value)  key-輸入參數名稱。  value-輸入參數值。
+                            }
+                        %>
                         <li class="page-item <%= page === i ? 'active' : '' %> ">
-                            <a class="page-link" href="?page=<%= i %> ">
+                            <a class="page-link" href="?<%= usp.toString() %>">
                                 <%= i %> 
                             </a>
                         </li>
                         <% } %>
                     <% } %>
-                    <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
-                        <a class="page-link" href="?page=<%= page + 1 %>">
+                    <% usp.set('page', page + 1); %>
+                    <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+                        <a class="page-link" href="?<%= usp.toString() %>">
                             Next
                         </a>
                     </li>
-
-                    <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
-                        <a class="page-link" href="?page=<%= totalPages %> ">
+                    <% usp.set('page', totalPages); %>
+                    <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+                        <a class="page-link" href="?<%= usp.toString() %>">
                             <i class="fas fa-angle-double-right"></i>
                         </a>
                     </li>
