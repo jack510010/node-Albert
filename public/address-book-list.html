@@ -79,6 +79,26 @@
     </div>
     <div class="container">
         <!-- <textarea name="" id="ta" cols="60" rows="20"></textarea> -->
+        <div class="row">
+          <div class="col">
+              <nav aria-label="Page navigation example">
+  
+                  <ul class="pagination justify-content-center">
+<!--                    
+                      <li class="page-item disabled">
+                          <a class="page-link " href="?page=1">
+                              <i class="fas fa-angle-double-left"></i>
+                          </a>
+                      </li>
+-->
+                      
+                  </ul>
+  
+              </nav>
+          </div>
+      </div>
+
+
 
         <div class="row">
           <div class="col">
@@ -129,6 +149,19 @@
     <script src="/jquery/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script>
+      const pageTpl = object => {  // 頁碼的樣板
+
+        return `
+          <li class="page-item ${object.active}">
+              <a class="page-link" href="?page=${object.page}">
+                ${object.page}
+              </a>
+          </li>
+        `;
+      };
+
+
+
       const itemTpl = object => {  // 準備好前端的樣板，一班是寫成 func 比較好處理
 
         return `
@@ -195,10 +228,28 @@
             console.log('finalArray', newArray.join(''));  // join方法：用空字串接起來     長什麼樣子可以去 img 資料夾看 console-log3.png
 
             }
-            document.querySelector('tbody').innerHTML = finalArray;   
-        })
+            document.querySelector('tbody').innerHTML = finalArray;
 
 //-----------------------以上是用 react 的風格來寫--------------------------------
+
+            // 頁碼開始
+            str = '';
+            for(let i = data.page - 3; i <= data.page + 3; i++) {
+
+              if(i >= 1 && i <= data.totalPages){
+
+                str += pageTpl({
+
+                  active: data.page === i ? 'active' : '',
+                  page: i,
+
+                })
+              }              
+            }
+            document.querySelector('.pagination').innerHTML = str
+        })
+
+
     </script>
 </body>
 </html>
