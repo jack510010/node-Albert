@@ -284,7 +284,7 @@
             let h = location.hash.slice(1);  // 丟掉最前面的『 # 』
             h = parseInt(h) || 1;
             getListData({page: h});  // hash蠻多人用的， 缺點：只能放一個字串
-        }; 
+        }; // hash change 套到分頁功能
 
         window.addEventListener('hashchange', whenHashChanged);
         
