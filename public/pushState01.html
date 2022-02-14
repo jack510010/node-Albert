@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hash</title>
+
+</head>
+<body>
+    <!-- 這個方法屬於history -->
+
+    <!-- history.pushState(state, title, url) 
+        pushState 的時候，頁面不會刷新， 但是『 url 』會變成你指定的 url ，要搭配後端技術使用。
+
+        用戶有可能紀錄這個連結，例如加到最愛之類的，總不能讓用戶下次進來看到『 404 not found 』吧
+
+        所以後端要知道這個是前端哪個程式去處理的， react 的 router 就是用 pushState 去處理的
+    -->
+
+
+    <div id="info">
+        <a href="javascript: pushS('/b1')">b1</a>
+        <a href="javascript: pushS('/b2')">b2</a>
+        <a href="javascript: pushS('/b3')">b3</a>
+        
+    </div>
+    <div class="box" id="b1">1</div>
+    <div class="box" id="b2" style="background: red">2</div>
+    <div class="box" id="b3" style="background: lightgreen">3</div>
+
+
+
+    <script>
+
+        const pushS = (url)=> {
+            history.pushState({t: Date.now(), url}, '', url)
+        };
+
+        window.addEventListener('popstate', event=>{
+            console.log(event.state);
+        });
+
+    </script>
+</body>
+</html>
