@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hash</title>
+    <style>
+        .box{
+            height: 800px;
+            width: 300px;
+            background-color: aqua;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!-- 『 # 』就是hash， hashTag -->
+    <div id="info">
+        <a href="#b2">b2</a>
+        <a href="#b3">b3</a>
+    </div>
+    <div class="box" id="b1">1</div>
+    <div class="box" id="b2" style="background: red">2</div>
+    <div class="box" id="b3" style="background: lightgreen">3</div>
+
+
+
+    <script>
+
+        const whenHashChanged = ()=> {
+            console.log(location.hash);   // 可以監聽 hash 是跑到哪裡
+        };
+
+        window.addEventListener('hashchange', whenHashChanged);
+    </script>
+</body>
+</html>
