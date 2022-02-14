@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/fontawesome/css/all.css" />
+    <style>
+        i {
+            font-size: 1rem;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+        </nav>
+    </div>
+    <div class="container">
+        <!-- <textarea name="" id="ta" cols="60" rows="20"></textarea> -->
+        <div class="row">
+          <div class="col">
+              <nav aria-label="Page navigation example">
+  
+                  <ul class="pagination justify-content-center">
+<!--                    
+                      <li class="page-item disabled">
+                          <a class="page-link " href="?page=1">
+                              <i class="fas fa-angle-double-left"></i>
+                          </a>
+                      </li>
+-->
+                      
+                  </ul>
+  
+              </nav>
+          </div>
+      </div>
+
+
+
+        <div class="row">
+          <div class="col">
+              <table class="table table-bordered table-striped table-warning">
+                  <thead>
+                      <tr>
+                          <th scope="col"><i class="fas fa-times"></i></th>
+                          <th scope="col">#</th>
+                          <th scope="col">name</th>
+                          <th scope="col">email</th>
+                          <th scope="col">mobile</th>
+                          <th scope="col">birthday</th>
+                          <th scope="col">address</th>
+                          <th scope="col"><i class="far fa-edit"></i></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+<!--                  
+                      <tr>
+                          <td>
+                              <a href="javascript: delete_it(37)">
+                                  <i class="fas fa-times"></i>
+                              </a>
+                          </td>
+                          <td>37 </td>
+                          <td>abcOMG </td>
+                          <td>316@gmail.com </td>
+                          <td>0900-978-978 </td>
+                          <td>2020-04-01 </td>  
+                          <td>abcdef </td>
+                          <td>
+                              <a href="/address-book/edit/37">
+                                  <i class="far fa-edit"></i>
+                              </a>
+                          </td>
+                      </tr>
+-->                  
+                    
+                  
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+        
+    </div>
+
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      const pageTpl = object => {  // 頁碼的樣板
+
+        return `
+          <li class="page-item ${object.active}">
+              <a class="page-link" href="#${object.page}">
+                ${object.page}
+              </a>
+          </li>
+        `;
+      };
+
+
+
+      const itemTpl = object => {  // 準備好前端的樣板，一班是寫成 func 比較好處理
+
+        return `
+          <tr>
+              <td>
+                  <a href="javascript: delete_it(${object.sid})">
+                      <i class="fas fa-times"></i>
+                  </a>
+              </td>
+              <td>${object.sid}</td>
+              <td>${object.name}</td>
+              <td>${object.email}</td>
+              <td>${object.mobile}</td>
+              <td>${object.birthday}</td>  
+              <td>${object.address}</td>
+              <td>
+                  <a href="/address-book/edit/${object.sid}">
+                      <i class="far fa-edit"></i>
+                  </a>
+              </td>
+          </tr>
+        `;
+      }
+
+      
+//-----------------------以下是用 一般方式來寫--------------------------------
+
+        // fetch('/address-book/api/list') // 先透過 ajax 去拿到資料
+        // .then(r => r.json())
+        // .then(data => {
+        //     console.log(data);
+        //     // document.querySelector('#ta').value = JSON.stringify(data, null, 3);
+        //     let str = '';
+
+        //     if(data.rows && data.rows.length){
+
+        //       data.rows.forEach(element => {
+
+        //         str += itemTpl(element);  // 每個項目都是一段一段的，然後把他們接起來
+
+        //       })
+        //     }
+        //     document.querySelector('tbody').innerHTML = str;   // 前端生頁面出來
+        // });
+//-----------------------以上是用 一般方式來寫--------------------------------
+
+
+//-----------------------以下是用 react 的風格來寫--------------------------------
+
+        const render = (data) => {
+          let str = '';
+
+          if(data.rows && data.rows.length){
+
+          // data.rows 是一個array ，可以用 map 方法來取得一個新的 array
+          let newArray = data.rows.map(element => itemTpl(element))
+          // console.log('newArray', newArray);  // 長什麼樣子可以去 img 資料夾看 console-log2.png
+
+          finalArray = newArray.join('');
+          // console.log('finalArray', newArray.join(''));  // join方法：用空字串接起來     長什麼樣子可以去 img 資料夾看 console-log3.png
+
+          }
+          document.querySelector('tbody').innerHTML = finalArray;
+
+
+
+          // 頁碼開始
+          str = '';
+          
+          for(let i = data.page - 3; i <= data.page + 3; i++) {
+
+            if(i >= 1 && i <= data.totalPages){
+
+              str += pageTpl({
+
+                active: data.page === i ? 'active' : '',
+                page: i,
+                
+              })
+            }        
+          }
+          // console.log('2', str); // 長什麼樣子可以去 chrome 看看
+
+          document.querySelector('.pagination').innerHTML = str
+        };
+
+        const getListData = (opt = {}) => {
+            opt.page = opt.page || 1;
+
+            opt.keyword = opt.keyword || '';
+
+            const usp = new URLSearchParams({
+                
+            });
+
+            usp.set('page', opt.page);
+
+            if(opt.keyword){
+
+                usp.set('keyword', opt.keyword);
+
+            }
+
+            fetch('/address-book/api/list?' + usp.toString()) 
+            .then(r => r.json())
+            .then(data => {
+                console.log(data);  // 這個data 長什麼樣子可以去 img 資料夾看console-log.png
+
+                render(data);
+
+            })
+        }
+
+        
+
+
+        const whenHashChanged = ()=> {
+            console.log(location.hash);   // 可以監聽 hash 是跑到哪裡
+
+            let h = location.hash.slice(1);  // 丟掉最前面的『 # 』
+            h = parseInt(h) || 1;
+            getListData({page: h});  // hash蠻多人用的， 缺點：只能放一個字串
+        }; 
+
+        window.addEventListener('hashchange', whenHashChanged);
+        
+        whenHashChanged();
+
+
+    </script>
+</body>
+</html>
