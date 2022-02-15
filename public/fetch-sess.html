@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hash</title>
+
+</head>
+<body>
+    <button id="btn" onclick="getData()">get data</button>
+    <br>
+    <textarea name="" id="ta" cols="80" rows="10"></textarea>
+
+    <script>
+
+        function getData() {
+            fetch('/try-sess',)
+            .then(r=> r.json())
+            .then(data =>{
+                console.log('deta', data);
+
+                
+                mes = JSON.stringify(data, null, 3);
+
+                
+
+                document.querySelector('#ta').value = mes
+            })
+        }
+
+    </script>
+</body>
+</html>
