@@ -3,6 +3,7 @@ require('dotenv').config(); // 載入 .env 的設定    本身require進來就�
 const express = require('express');   
 const multer = require('multer');
 const fs = require('fs').promises;
+const cors = require('cors');
 const session = require('express-session');
 const MysqlStore = require('express-mysql-session')(session);  // require進來的這個東西『'express-mysql-session' 』是一個func
 const moment = require('moment-timezone');
@@ -28,11 +29,14 @@ app.use(session({
     store: sessionStore,
     cookie: {maxAge: 600000}  //單位毫秒 
 }));
+app.use(cors());   //! 要放在靜態資料夾前面，不然會讀不到字型、 jQ 、bootstrap 等等的靜態資料
+
 app.use(express.urlencoded({extended: false})); //url格式 可以拿到中介軟體 middleware
 app.use(express.json()); //json格式 這個也是中介軟體 middleware
 app.use(express.static('public'));  // 使用靜態內容的資料夾要放在路由之前。  // 這個是根目錄，所以其他靜態的檔案，例如css、前端的js或者圖檔都可以放在public這個資料夾裡面。 
 app.use('/jquery', express.static('node_modules/jquery/dist/'));     // 放進jquery，複製相對路徑
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));  // 放進bootstrap，複製相對路徑
+
 
 //--------------------------------以下是自訂的 middleware-----------------------------------------------
 
