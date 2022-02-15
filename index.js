@@ -29,7 +29,15 @@ app.use(session({
     store: sessionStore,
     cookie: {maxAge: 600000}  //單位毫秒 
 }));
-app.use(cors());   //! 要放在靜態資料夾前面，不然會讀不到字型、 jQ 、bootstrap 等等的靜態資料
+
+const corsOptions = {  // 他是一個物件
+    credentials: true,
+    origin: (origin, callback) =>{  // origin 是一個func
+        console.log(`origin: ${origin}`);
+        callback(null, true);
+    }
+};
+app.use(cors(corsOptions));   //! 要放在靜態資料夾前面，不然會讀不到字型、 jQ 、bootstrap 等等的靜態資料
 
 app.use(express.urlencoded({extended: false})); //url格式 可以拿到中介軟體 middleware
 app.use(express.json()); //json格式 這個也是中介軟體 middleware

@@ -13,6 +13,8 @@
     <textarea name="" id="ta" cols="80" rows="10"></textarea>
 
     <script>
+        /*
+        從localhost:3001 呼叫 API， 然後這支程式碼網址列也在 localhost:3001
 
         function getData() {
             fetch('/try-sess',)
@@ -28,7 +30,44 @@
                 document.querySelector('#ta').value = mes
             })
         }
+        */
 
+        /*
+        現在要改寫成用 live server 開啟， 不是用 localhost:3001。
+        function getData() {
+            fetch('http://localhost:3001/try-sess',)
+            .then(r=> r.json())
+            .then(data =>{
+                console.log('deta', data);
+
+                
+                mes = JSON.stringify(data, null, 3);
+
+                
+
+                document.querySelector('#ta').value = mes
+            })
+            // 但是 cookie 吃不到。 myVar 都是呈現 「 1 」。 Set-Cookie:的值都不一樣，所以 myVar 才會呈現 1。
+        };
+        */
+
+        function getData() {
+            fetch('http://localhost:3001/try-sess',{
+                credentials: "include",  // cross origin 傳送 cookie
+            })
+            .then(r=> r.json())
+            .then(data =>{
+                console.log('deta', data);
+
+                
+                mes = JSON.stringify(data, null, 3);
+
+                
+
+                document.querySelector('#ta').value = mes
+            })
+            
+        }
     </script>
 </body>
 </html>
